@@ -221,7 +221,7 @@ export default function Home() {
                 Cara Order
               </button>
 
-              <div class="w-[3px] h-[20px] mx-[3x] bg-lime-900 rounded"></div>
+              <div className="w-[3px] h-[20px] mx-[3x] bg-lime-900 rounded"></div>
 
               <button
                 onClick={() =>
@@ -791,6 +791,9 @@ export default function Home() {
                 <li><a onClick={() => scrollToViewz('katalog')} className="hover:text-lime-500 transition-colors cursor-pointer">Katalog Produk</a></li>
                 <li><a onClick={() => scrollToViewz('testimoni')} className="hover:text-lime-500 transition-colors cursor-pointer">Testimoni Pelanggan</a></li>
                 <li><a onClick={() => scrollToViewz('cara-order')} className="hover:text-lime-500 transition-colors cursor-pointer">Cara Pemesanan</a></li>
+                <li><div className="w-[10px] h-[3px] mx-[3x] bg-lime-900 rounded"></div></li>
+                <li><a onClick={() => window.location.href = "/"} className="hover:text-lime-500 transition-colors cursor-pointer">Home Page</a></li>
+                <li><a onClick={() => window.location.href = "/about"} className="hover:text-lime-500 transition-colors cursor-pointer">About Page</a></li>
               </ul>
             </div>
 
