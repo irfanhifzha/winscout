@@ -15,7 +15,10 @@ import testim1 from '../assets/testim1.jpg';
 import testim2 from '../assets/testim2.jpg';
 import testim3 from '../assets/testim3.jpg';
 
+import { useNavigate } from 'react-router-dom';
+
 export default function Home() {
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Hero Section Square Carousel Images
@@ -94,7 +97,7 @@ export default function Home() {
     },
     {
       number: "03",
-      title: "Revisi Mockup",
+      title: "Revisi Desain",
       desc: "Tim desainer profesional kami akan membuatkan mockup baju kustom Anda gratis."
     },
     {
@@ -117,25 +120,50 @@ export default function Home() {
     window.open(`https://wa.me/${phoneNumber}?text=${text}`, '_blank');
   };
 
+  // Const scrollTo phone offset
+  // Mobile scroll helper (with sticky navbar offset)
+  const scrollToSectionMobile = (id) => {
+    const element = document.getElementById(id);
+
+    if (!element) return;
+
+    const yOffset = -300;
+
+    const y =
+      element.getBoundingClientRect().top +
+      window.pageYOffset +
+      yOffset;
+
+    window.scrollTo({
+      top: y,
+      behavior: 'smooth',
+    });
+
+    setIsMobileMenuOpen(false);
+  };
+
+  // const footer
+  const scrollToViewz = (id) => {
+    const element = document.getElementById(id);
+
+    if (!element) return;
+
+    const y =
+      element.getBoundingClientRect().top +
+      window.pageYOffset;;
+
+    window.scrollTo({
+      top: y,
+      behavior: 'smooth',
+    });
+
+    setIsMobileMenuOpen(false);
+  };
+
   return (
     <div className="min-h-screen bg-[#FAF9F5] text-stone-900 font-sans antialiased selection:bg-amber-200 selection:text-amber-950 font-body">
 
-      {/* Google fonts & custom pattern classes */}
-      <style>{`
-        .font-russo { font-family: 'Russo One', sans-serif; }
-        .font-rough { font-family: 'Special Elite', system-ui; }
-        .font-body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .bg-grid-tactical {
-          background-size: 28px 28px;
-          background-image: radial-gradient(circle, rgba(46, 79, 54, 0.08) 1.2px, transparent 1.2px);
-        }
-        .bg-lines-rough {
-          background-image: repeating-linear-gradient(45deg, rgba(108, 78, 49, 0.04) 0px, rgba(108, 78, 49, 0.04) 2px, transparent 2px, transparent 10px);
-        }
-        .text-shadow-rough {
-          text-shadow: 2px 2px 0px rgba(46, 79, 54, 0.12);
-        }
-      `}</style>
+
 
       {/* 1. HEADER / STICKY NAVBAR */}
       <header className="sticky top-0 z-50 backdrop-blur-xl bg-[#FAF9F5]/90 border-b border-stone-200/60 shadow-sm">
@@ -146,16 +174,63 @@ export default function Home() {
             <img src={Icon} className="w-10 h-10 object-contain" alt="WIN Scout Logo" />
             <div>
               <span className="font-russo text-xl tracking-wide text-stone-900 block leading-none">WIN SCOUT</span>
-              <span className="font-rough text-[12px] text-orange-800 font-bold uppercase tracking-widest block mt-1">APPAREL</span>
+              <span className="font-russo text-[12px] text-orange-800 uppercase tracking-widest block mt-0">APPAREL</span>
             </div>
           </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8 text-xs uppercase tracking-wider font-bold text-stone-600">
-            <a href="#keunggulan" className="hover:text-emerald-800 transition-colors">Keunggulan</a>
-            <a href="#katalog" className="hover:text-emerald-800 transition-colors">Katalog Produk</a>
-            <a href="#testimoni" className="hover:text-emerald-800 transition-colors">Testimoni</a>
-            <a href="#cara-order" className="hover:text-emerald-800 transition-colors">Cara Order</a>
+              
+              <button
+                onClick={() =>
+                  document.getElementById('keunggulan')
+                    ?.scrollIntoView({ behavior: 'smooth' })
+                }
+                className="hover:text-lime-800 transition-colors uppercase cursor-pointer"
+              >
+                Keunggulan
+              </button>
+
+              <button
+                onClick={() =>
+                  document.getElementById('katalog')
+                    ?.scrollIntoView({ behavior: 'smooth' })
+                }
+                className="hover:text-lime-800 transition-colors uppercase cursor-pointer"
+              >
+                Katalog Produk
+              </button>
+
+              <button
+                onClick={() =>
+                  document.getElementById('testimoni')
+                    ?.scrollIntoView({ behavior: 'smooth' })
+                }
+                className="hover:text-lime-800 transition-colors uppercase cursor-pointer"
+              >
+                Testimoni
+              </button>
+
+              <button
+                onClick={() =>
+                  document.getElementById('cara-order')
+                    ?.scrollIntoView({ behavior: 'smooth' })
+                }
+                className="hover:text-lime-800 transition-colors uppercase cursor-pointer"
+              >
+                Cara Order
+              </button>
+
+              <div class="w-[3px] h-[20px] mx-[3x] bg-lime-900 rounded"></div>
+
+              <button
+                onClick={() =>
+                  window.location.href = "/about"}
+                className="hover:text-lime-800 transition-colors uppercase cursor-pointer"
+              >
+                ABOUT US
+              </button>
+
           </nav>
 
           {/* Contact Button */}
@@ -182,48 +257,74 @@ export default function Home() {
         </div>
 
         {/* Mobile Navigation Drawer */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden border-b border-stone-200 bg-[#FAF9F5] px-4 pt-2 pb-6 flex flex-col gap-4">
-            <a
-              href="#keunggulan"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="py-2 text-stone-700 hover:text-emerald-800 font-bold uppercase tracking-wider text-xs"
+        <div
+          className={`
+            md:hidden overflow-hidden border-b border-stone-200 bg-[#FAF9F5]
+            transition-all duration-300 ease-in-out
+            ${
+              isMobileMenuOpen
+                ? 'max-h-[500px] opacity-100 translate-y-0 py-2 pb-6'
+                : 'max-h-0 opacity-0 -translate-y-2 py-0 pb-0 border-b-0'
+            }
+          `}
+        >
+          <div className="px-4 flex flex-col gap-4 items-center">
+
+            <button
+              onClick={() => scrollToSectionMobile('keunggulan')}
+              className="py-2 text-left text-stone-700 hover:text-lime-800 font-bold uppercase tracking-wider text-xs"
             >
               Keunggulan
-            </a>
-            <a
-              href="#katalog"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="py-2 text-stone-700 hover:text-emerald-800 font-bold uppercase tracking-wider text-xs"
+            </button>
+
+            <button
+              onClick={() => scrollToSectionMobile('katalog')}
+              className="py-2 text-left text-stone-700 hover:text-lime-800 font-bold uppercase tracking-wider text-xs"
             >
               Katalog Produk
-            </a>
-            <a
-              href="#testimoni"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="py-2 text-stone-700 hover:text-emerald-800 font-bold uppercase tracking-wider text-xs"
+            </button>
+
+            <button
+              onClick={() => scrollToSectionMobile('testimoni')}
+              className="py-2 text-left text-stone-700 hover:text-lime-800 font-bold uppercase tracking-wider text-xs"
             >
               Testimoni
-            </a>
-            <a
-              href="#cara-order"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="py-2 text-stone-700 hover:text-emerald-800 font-bold uppercase tracking-wider text-xs"
+            </button>
+
+            <button
+              onClick={() => scrollToSectionMobile('cara-order')}
+              className="py-2 text-left text-stone-700 hover:text-lime-800 font-bold uppercase tracking-wider text-xs"
             >
               Cara Order
-            </a>
+            </button>
+
+            <div class="w-30 h-[5px] mx-[3x] bg-lime-900 rounded"></div>
+
+            <button
+                    onClick={() =>
+                      window.location.href = "/about"}
+                    className="py-2 text-left text-stone-700 hover:text-lime-800 font-bold uppercase tracking-wider text-xs"
+                  >
+                    ABOUT US
+            </button>
+
             <button
               onClick={() => {
                 setIsMobileMenuOpen(false);
-                openWhatsApp("Halo Admin WIN Scout Apparel, saya ingin berkonsultasi mengenai baju pramuka custom.");
+
+                openWhatsApp(
+                  "Halo Admin WIN Scout Apparel, saya ingin berkonsultasi mengenai baju pramuka custom."
+                );
               }}
               className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-sm font-black tracking-wide uppercase bg-[#2d4a22] text-white shadow-md active:scale-95 transition-all duration-200 cursor-pointer"
             >
               <span className="material-icons text-sm select-none">chat</span>
               Chat WhatsApp
             </button>
+
           </div>
-        )}
+        </div>
+        
       </header>
 
       {/* 2. HERO CONTENT SECTION */}
@@ -283,8 +384,8 @@ export default function Home() {
                 </button>
 
                 <a
-                  href="#katalog"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-xs font-black tracking-widest uppercase bg-white hover:bg-stone-100 text-stone-800 border-2 border-stone-300 active:scale-95 transition-all duration-200"
+                  onClick={() => scrollToViewz('katalog')}
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-xs font-black tracking-widest uppercase bg-white hover:bg-stone-100 text-stone-800 border-2 border-stone-300 active:scale-95 transition-all duration-200 cursor-pointer"
                 >
                   Lihat Katalog Baju <span className="material-icons text-xs select-none">arrow_forward</span>
                 </a>
@@ -401,13 +502,13 @@ export default function Home() {
             ].map((feature, idx) => (
               <div
                 key={idx}
-                className="group relative rounded-2xl bg-stone-50 border border-stone-200 p-6 md:p-8 hover:border-orange-800/30 hover:bg-[#FAF9F5] transition-all duration-300 hover:shadow-xl shadow-sm"
+                className="group relative rounded-2xl bg-stone-50 border border-stone-200 p-6 md:p-8 hover:border-lime-800/30 hover:bg-[#FAF9F5] transition-all duration-300 hover:shadow-xl shadow-sm"
               >
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-emerald-800/0 to-emerald-800/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-lime-800/0 to-lime-800/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
                 {/* Material Icon Container */}
-                <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center border border-stone-200 shadow-sm group-hover:border-emerald-800/30 transition-colors">
-                  <span className="material-icons text-emerald-800 text-2xl select-none">{feature.icon}</span>
+                <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center border border-stone-200 shadow-sm group-hover:border-lime-800/30 transition-colors">
+                  <span className="material-icons text-orange-800 text-2xl select-none">{feature.icon}</span>
                 </div>
 
                 <h3 className="mt-6 font-russo text-base tracking-wider text-stone-900 uppercase">{feature.title}</h3>
@@ -446,7 +547,7 @@ export default function Home() {
               return (
                 <div
                   key={product.id}
-                  className="group flex flex-col rounded-3xl bg-white border border-stone-200 overflow-hidden hover:border-emerald-800/30 hover:shadow-xl transition-all duration-300 relative"
+                  className="group flex flex-col rounded-3xl bg-white border border-stone-200 overflow-hidden hover:border-lime-800/30 hover:shadow-xl transition-all duration-300 relative"
                 >
 
 
@@ -463,12 +564,12 @@ export default function Home() {
                   {/* Detail Content */}
                   <div className="p-6 flex-1 flex flex-col justify-between">
                     <div>
-                      <h3 className="font-russo text-sm tracking-wide text-stone-900 group-hover:text-emerald-800 transition-colors line-clamp-2 uppercase">{product.name}</h3>
+                      <h3 className="font-russo text-sm tracking-wide text-stone-900 group-hover:text-lime-800 transition-colors line-clamp-2 uppercase">{product.name}</h3>
                       <p className="font-rough text-[9px] text-[#6c4e31] mt-1 uppercase tracking-widest font-bold">WIN SCOUT APPAREL</p>
 
                       {/* Pricing block */}
                       <div className="mt-4 flex items-baseline gap-2">
-                        <span className="font-russo text-lg text-emerald-800">{formattedDiscount}</span>
+                        <span className="font-russo text-lg text-lime-800">{formattedDiscount}</span>
                         <span className="text-xs text-stone-400 line-through font-body">{formattedOriginal}</span>
                       </div>
                     </div>
@@ -493,12 +594,12 @@ export default function Home() {
           {/* Catalog CTA Alert */}
           <div className="mt-12 text-center">
             <p className="text-sm text-stone-600 font-body">
-              Punya desain sendiri atau ingin konsultasi bahan jersey lainnya?{" "}
+              Punya desain sendiri atau ingin konsultasi lainnya?{" "}
               <button
                 onClick={() => openWhatsApp("Halo Admin WIN Scout Apparel, saya punya konsep desain sendiri. Apakah bisa dibuatkan baju lapangannya?")}
-                className="bg-[#6c4e31] text-white px-4 py-2 rounded mt-3 hover:bg-[#5c3f24] transition ms-2 cursor-pointer"
+                className="bg-[#2d4a22] text-white px-4 py-2 rounded mt-3 hover:bg-[#305B21] transition ms-2 cursor-pointer text-xs"
               >
-                Hubungi Desainer WIN Scout
+                📝Hubungi Admin WIN Scout
               </button>
             </p>
           </div>
@@ -536,7 +637,7 @@ export default function Home() {
             {testimonials.map((testi) => (
               <div
                 key={testi.id}
-                className="flex flex-col justify-between rounded-3xl bg-stone-50 border border-stone-200 p-5 shadow-sm relative hover:shadow-md hover:border-emerald-800/20 transition-all duration-300"
+                className="flex flex-col justify-between rounded-3xl bg-stone-50 border border-stone-200 p-5 shadow-sm relative hover:shadow-md hover:border-lime-800/20 transition-all duration-300"
               >
                 <div>
                   {/* Photo Testimoni (above review star) */}
@@ -566,7 +667,7 @@ export default function Home() {
                   <div>
                     <p className="font-rough text-[9px] text-[#6c4e31] mt-1.5 uppercase tracking-wider">{testi.school}</p>
                   </div>
-                  <span className="material-icons text-emerald-800/20 text-xl select-none">format_quote</span>
+                  <span className="material-icons text-lime-800/20 text-xl select-none">format_quote</span>
                 </div>
 
               </div>
@@ -595,13 +696,13 @@ export default function Home() {
           <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-6 relative">
 
             {/* Visual connector line for large screens */}
-            <div className="hidden lg:block absolute top-[15%] left-[10%] right-[10%] h-2 bg-gradient-to-r from-emerald-800/20 via-amber-800/30 to-emerald-800/20 pointer-events-none" />
+            <div className="hidden lg:block absolute top-[15%] left-[10%] right-[10%] h-2 bg-gradient-to-r from-lime-800/20 via-amber-800/30 to-lime-800/20 pointer-events-none" />
 
             {steps.map((step, idx) => (
               <div key={idx} className="flex flex-col items-center text-center relative group">
 
                 {/* Step circle */}
-                <div className="w-14 h-14 rounded-full bg-white border-2 border-stone-300 flex items-center justify-center text-emerald-800 font-russo text-lg shadow-sm group-hover:border-[#6c4e31] group-hover:bg-orange-50 group-hover:scale-105 transition-all duration-300 relative z-10">
+                <div className="w-14 h-14 rounded-full bg-white border-2 border-stone-300 flex items-center justify-center text-lime-800 font-russo text-lg shadow-sm group-hover:border-[#6c4e31] group-hover:bg-orange-50 group-hover:scale-105 transition-all duration-300 relative z-10">
                   {step.number}
                 </div>
 
@@ -649,8 +750,8 @@ export default function Home() {
 
             {/* Price Check / Catalog Shortcut */}
             <a
-              href="#katalog"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-xs font-black tracking-widest uppercase bg-white hover:bg-stone-100 text-stone-850 border-2 border-stone-300 active:scale-95 transition-all duration-200"
+              onClick={() => scrollToViewz('katalog')}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-xs font-black tracking-widest uppercase bg-white hover:bg-stone-100 text-stone-850 border-2 border-stone-300 active:scale-95 transition-all duration-200 cursor-pointer"
             >
               Tanya Harga &amp; Ukuran <span className="material-icons text-xs select-none">help_outline</span>
             </a>
@@ -686,10 +787,10 @@ export default function Home() {
             <div className="md:col-span-3">
               <h4 className="font-russo text-white font-bold text-xs uppercase tracking-wider mb-4">Navigasi Halaman</h4>
               <ul className="space-y-2.5 text-xs text-stone-400 font-body">
-                <li><a href="#keunggulan" className="hover:text-emerald-500 transition-colors">Keunggulan Jersey</a></li>
-                <li><a href="#katalog" className="hover:text-emerald-500 transition-colors">Katalog Produk</a></li>
-                <li><a href="#testimoni" className="hover:text-emerald-500 transition-colors">Testimoni Pelanggan</a></li>
-                <li><a href="#cara-order" className="hover:text-emerald-500 transition-colors">Cara Pemesanan</a></li>
+                <li><a onClick={() => scrollToViewz('keunggulan')} className="hover:text-lime-500 transition-colors cursor-pointer">Keunggulan Jersey</a></li>
+                <li><a onClick={() => scrollToViewz('katalog')} className="hover:text-lime-500 transition-colors cursor-pointer">Katalog Produk</a></li>
+                <li><a onClick={() => scrollToViewz('testimoni')} className="hover:text-lime-500 transition-colors cursor-pointer">Testimoni Pelanggan</a></li>
+                <li><a onClick={() => scrollToViewz('cara-order')} className="hover:text-lime-500 transition-colors cursor-pointer">Cara Pemesanan</a></li>
               </ul>
             </div>
 
@@ -739,7 +840,7 @@ export default function Home() {
                 {/* WhatsApp */}
                 <button
                   onClick={() => openWhatsApp("Halo Admin WIN Scout Apparel, saya ingin berkonsultasi mengenai pemesanan jersey kustom.")}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-stone-900 border border-stone-850 text-slate-300 hover:text-emerald-500 hover:border-emerald-500/20 text-xs transition-colors cursor-pointer"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-stone-900 border border-stone-850 text-slate-300 hover:text-lime-500 hover:border-lime-500/20 text-xs transition-colors cursor-pointer"
                 >
                   <span className="material-icons text-xs select-none">chat</span>
                   <span>WhatsApp</span>

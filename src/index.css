@@ -1,1 +1,16 @@
 @import "tailwindcss";
+
+
+.font-russo { font-family: 'Russo One', sans-serif; }
+.font-rough { font-family: 'Special Elite', system-ui; }
+.font-body { font-family: 'Plus Jakarta Sans', sans-serif; }
+.bg-grid-tactical {
+    background-size: 28px 28px;
+    background-image: radial-gradient(circle, rgba(46, 79, 54, 0.08) 1.2px, transparent 1.2px);
+}
+.bg-lines-rough {
+    background-image: repeating-linear-gradient(45deg, rgba(108, 78, 49, 0.04) 0px, rgba(108, 78, 49, 0.04) 2px, transparent 2px, transparent 10px);
+}
+.text-shadow-rough {
+    text-shadow: 2px 2px 0px rgba(46, 79, 54, 0.12);
+}
